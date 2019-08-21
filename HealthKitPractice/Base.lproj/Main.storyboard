@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="140" width="414" height="722"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="QuantityTypeCell" textLabel="wpF-Bl-mOw" style="IBUITableViewCellStyleDefault" id="g8Y-av-mzn">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MainCell" textLabel="wpF-Bl-mOw" style="IBUITableViewCellStyleDefault" id="g8Y-av-mzn">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="g8Y-av-mzn" id="06K-Hf-GHf">
@@ -39,7 +39,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="UxO-nL-qFI" kind="show" id="zqs-N0-aMW"/>
+                                            <segue destination="UxO-nL-qFI" kind="show" identifier="ShowDetail" id="zqs-N0-aMW"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -70,7 +70,7 @@
         <!--Title-->
         <scene sceneID="qpn-JV-wSo">
             <objects>
-                <viewController id="UxO-nL-qFI" sceneMemberID="viewController">
+                <viewController id="UxO-nL-qFI" customClass="DetailViewController" customModule="HealthKitPractice" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HWW-ql-UTO">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -79,7 +79,7 @@
                                 <rect key="frame" x="0.0" y="140" width="414" height="722"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ThisCell" textLabel="0gK-Sh-AZB" detailTextLabel="HL4-Kh-GHN" style="IBUITableViewCellStyleValue1" id="Jda-9n-ZNi">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DetailCell" textLabel="0gK-Sh-AZB" detailTextLabel="HL4-Kh-GHN" style="IBUITableViewCellStyleValue1" id="Jda-9n-ZNi">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Jda-9n-ZNi" id="zzn-ra-8jm">
@@ -104,6 +104,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="UxO-nL-qFI" id="xYB-yZ-YvT"/>
+                                    <outlet property="delegate" destination="UxO-nL-qFI" id="nPJ-Ea-bjR"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -116,6 +120,9 @@
                         <viewLayoutGuide key="safeArea" id="BN9-J5-qgf"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="r29-4p-RYF"/>
+                    <connections>
+                        <outlet property="samplesTableView" destination="sMc-Hr-unH" id="fBa-L0-8bk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yDB-xC-hJg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

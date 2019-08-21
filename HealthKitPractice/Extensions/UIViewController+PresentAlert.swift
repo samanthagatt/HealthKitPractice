@@ -9,7 +9,10 @@
 import UIKit
 
 extension UIViewController {
-    func presentAlert(from error: Error) {
+    func presentErrorAlert(from error: Error) {
+        // TODO: Implement this
+    }
+    func presentErrorAlert(with string: String) {
         // TODO: Implement this
     }
 }

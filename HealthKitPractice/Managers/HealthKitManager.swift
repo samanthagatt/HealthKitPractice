@@ -33,6 +33,14 @@ enum HealthKitError: Error {
 
 final class HealthKitManager {
     static let hkQuantTypeIdentifiersToRead: [HKQuantityTypeIdentifier] = [.bodyMass, .bloodPressureSystolic, .bloodPressureDiastolic, .heartRate, .stepCount]
+    static var measurementFormatter: MeasurementFormatter = {
+        let formatter = MeasurementFormatter()
+        formatter.locale = Locale.current
+        formatter.unitStyle = .medium
+        formatter.numberFormatter = NumberFormatter()
+        formatter.numberFormatter.numberStyle = .decimal
+        return formatter
+    }()
     
     static func authorizeHealthKit(completion: @escaping (Bool, HealthKitError?) -> Swift.Void) {
         guard HKHealthStore.isHealthDataAvailable() else {
@@ -56,7 +64,7 @@ final class HealthKitManager {
     static func getSamples(for sampleType: HKSampleType, completion: @escaping ([HKQuantitySample]?, HealthKitError?) -> Void) {
         let predicate = HKQuery.predicateForSamples(withStart: .distantPast, end: Date(), options: .strictEndDate)
         let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
-        let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: 1, sortDescriptors: [sortDescriptor]) { (query, samples, error) in
+        let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: 20, sortDescriptors: [sortDescriptor]) { (query, samples, error) in
             DispatchQueue.main.async {
                 let hkError = HealthKitError(queryError: error)
                 guard let samples = samples as? [HKQuantitySample] else {
