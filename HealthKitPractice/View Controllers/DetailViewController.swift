@@ -18,6 +18,12 @@ final class DetailViewController: UIViewController, UITableViewDataSource, UITab
                     presentErrorAlert(with: "\(id.rawValue) is no longer available in HealthKit")
                     return
                 }
+                HKHealthStore().preferredUnits(for: [sampleType]) { [weak self] (unitDict, error) in
+                    if let error = error {
+                        self?.presentErrorAlert(from: error)
+                    }
+                    self?.units = unitDict[sampleType]
+                }
                 HealthKitManager.getSamples(for: sampleType) { [weak self] (samples, hkError) in
                     if let error = hkError {
                         self?.presentErrorAlert(from: error)
@@ -30,6 +36,7 @@ final class DetailViewController: UIViewController, UITableViewDataSource, UITab
         }
     }
     var samples: [HKQuantitySample] = []
+    var units: HKUnit?
     
     // MARK: IBOutlets
     @IBOutlet weak var samplesTableView: UITableView!
@@ -43,7 +50,12 @@ extension DetailViewController {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let sample = samples[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath)
-        cell.textLabel?.text = sample.toString(preferredUnit: quantityTypeId?.getPreferredUnits())
+        if let units = self.units {
+            let measurement = Measurement(value: sample.quantity.doubleValue(for: units), unit: Unit(symbol: units.unitString))
+            cell.textLabel?.text = HealthKitManager.measurementFormatter.string(from: measurement)
+        } else {
+            cell.textLabel?.text = "An error occurred"
+        }
         return cell
     }
 }
